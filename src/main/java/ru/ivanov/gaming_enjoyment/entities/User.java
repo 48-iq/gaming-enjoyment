@@ -29,6 +29,13 @@ public class User {
     private Role role;
 
     @ManyToMany
+    @JoinTable(name = "user_friend",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "friend_id", referencedColumnName = "id")
+    )
+    List<User> friends;
+
+    @ManyToMany
     @JoinTable(name = "user_theme",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "theme_id", referencedColumnName = "id")

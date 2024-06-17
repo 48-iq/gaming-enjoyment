@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 import ru.ivanov.gaming_enjoyment.converters.UserConverter;
 import ru.ivanov.gaming_enjoyment.enums.Role;
+import ru.ivanov.gaming_enjoyment.exceptions.EntityAlreadyExistException;
 import ru.ivanov.gaming_enjoyment.queries.PageQuery;
 import ru.ivanov.gaming_enjoyment.dto.UserDto;
 import ru.ivanov.gaming_enjoyment.entities.User;
@@ -30,13 +31,30 @@ public class UserServiceImpl implements UserService {
         if (userDto.getId() != null) {
             throw new NotNullIdException("Id must be null when registering new user");
         }
+        if (userRepository.existsByUsername(userDto.getUsername())) {
+            throw new EntityAlreadyExistException("User with username " + userDto.getUsername() + " already exists");
+        }
         User user = userConverter.convertToEntity(userDto);
-        user.setGamesPlayed(
+        if (userDto.getGamesPlayed() != null)
+            user.setGamesPlayed(
                 gameRepository.findAllByIds(userDto.getGamesPlayed())
-        );
-        user.setGamesPlaying(
+            );
+        if (userDto.getGamesPlaying() != null)
+            user.setGamesPlaying(
                 gameRepository.findAllByIds(userDto.getGamesPlaying())
-        );
+            );
+        if (userDto.getGroups() != null)
+            user.setGroups(
+                groupRepository.findAllByIds(userDto.getGroups())
+            );
+        if (userDto.getThemes() != null)
+            user.setThemes(
+                themeRepository.findAllByIds(userDto.getThemes())
+            );
+        if (userDto.getFriends() != null)
+            user.setFriends(
+                userRepository.findAllByIds(userDto.getFriends())
+            );
         user = userRepository.save(user);
         return userConverter.convertToDto(user);
     }
@@ -82,6 +100,11 @@ public class UserServiceImpl implements UserService {
         }
         if (userDto.getStatus() != null) {
             user.setStatus(userDto.getStatus());
+        }
+        if (userDto.getFriends() != null) {
+            user.setFriends(
+                    userRepository.findAllByIds(userDto.getFriends())
+            );
         }
         user = userRepository.save(user);
         return userConverter.convertToDto(user);

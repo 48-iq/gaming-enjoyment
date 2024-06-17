@@ -22,5 +22,6 @@ public class UserDto {
     private List<Integer> gamesPlaying; //id>
     private List<Integer> groups; //id
     private List<Integer> themes; //id
+    private List<Integer> friends;
     private byte[] image;
 }

@@ -27,6 +27,8 @@ public class UserConverter {
             user.setGroups(new ArrayList<>());
         if (user.getThemes() == null)
             user.setThemes(new ArrayList<>());
+        if (user.getFriends() == null)
+            user.setFriends(new ArrayList<>());
         return UserDto.builder()
                 .id(user.getId())
                 .username(user.getUsername())
@@ -37,6 +39,8 @@ public class UserConverter {
                 .gamesPlaying(user.getGamesPlaying().stream().map(Game::getId).toList())
                 .groups(user.getGroups().stream().map(Group::getId).toList())
                 .themes(user.getThemes().stream().map(Theme::getId).toList())
+                .friends(user.getFriends().stream().map(User::getId).toList())
+                .image(user.getImage())
                 .status(user.getStatus())
                 .build();
     }

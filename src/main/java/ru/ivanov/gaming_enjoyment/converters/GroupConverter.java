@@ -28,6 +28,7 @@ public class GroupConverter {
                 .themes(group.getThemes()
                         .stream().map(Theme::getId).toList())
                 .games(group.getGames().stream().map(Game::getId).toList())
+                .image(group.getImage())
                 .build();
     }
 
@@ -36,6 +37,7 @@ public class GroupConverter {
                 .id(groupDto.getId())
                 .title(groupDto.getTitle())
                 .description(groupDto.getDescription())
+                .image(groupDto.getImage())
                 .build();
     }
 

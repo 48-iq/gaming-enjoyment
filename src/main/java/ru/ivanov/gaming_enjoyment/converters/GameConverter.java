@@ -28,6 +28,7 @@ public class GameConverter {
                 .systemRequirements(game.getSystemRequirements())
                 .genres(game.getGenres().stream().map(Genre::getId).toList())
                 .platforms(game.getPlatforms().stream().map(Platform::getId).toList())
+                .image(game.getImage())
                 .build();
     }
 
@@ -37,6 +38,7 @@ public class GameConverter {
                 .title(gameDto.getTitle())
                 .description(gameDto.getDescription())
                 .systemRequirements(gameDto.getSystemRequirements())
+                .image(gameDto.getImage())
                 .build();
     }
 }

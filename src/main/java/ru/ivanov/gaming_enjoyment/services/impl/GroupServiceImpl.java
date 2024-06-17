@@ -109,6 +109,9 @@ public class GroupServiceImpl implements GroupService {
             group.setTitle(groupDto.getTitle());
 
         }
+        if (groupDto.getImage() != null) {
+            group.setImage(groupDto.getImage());
+        }
         if (groupDto.getGames() != null) {
             group.setGames(
                     gameRepository.findAllByIds(groupDto.getGames())

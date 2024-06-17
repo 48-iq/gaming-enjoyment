@@ -12,5 +12,6 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("SELECT u FROM User u WHERE u.id IN :ids")
     public List<User> findAllByIds(List<Integer> ids);
+    public boolean existsByUsername(String username);
 
 }

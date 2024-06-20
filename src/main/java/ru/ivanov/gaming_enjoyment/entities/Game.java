@@ -22,7 +22,7 @@ public class Game {
     private String description;
     private String systemRequirements;
     @Lob
-    private byte[] image;
+    private String image;
 
     @ManyToMany
     @JoinTable(name = "game_genre",

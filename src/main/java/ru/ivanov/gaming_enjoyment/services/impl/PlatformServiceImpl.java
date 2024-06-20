@@ -7,6 +7,7 @@ import ru.ivanov.gaming_enjoyment.dto.PlatformDto;
 import ru.ivanov.gaming_enjoyment.entities.Platform;
 import ru.ivanov.gaming_enjoyment.exceptions.EntityNotFoundException;
 import ru.ivanov.gaming_enjoyment.exceptions.NullIdException;
+import ru.ivanov.gaming_enjoyment.queries.IdsQuery;
 import ru.ivanov.gaming_enjoyment.repositories.GameRepository;
 import ru.ivanov.gaming_enjoyment.repositories.PlatformRepository;
 import ru.ivanov.gaming_enjoyment.services.intrf.PlatformService;
@@ -57,6 +58,12 @@ public class PlatformServiceImpl implements PlatformService {
             platform.setDescription(platformDto.getDescription());
         }
         return platformConverter.convertToDto(platformRepository.save(platform));
+    }
+
+    @Override
+    public List<PlatformDto> getPlatformsByIds(IdsQuery idsQuery) {
+        return platformRepository.findAllByIds(idsQuery.getIds())
+                .stream().map(platformConverter::convertToDto).toList();
     }
 
     @Override

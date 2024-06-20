@@ -10,6 +10,9 @@ import ru.ivanov.gaming_enjoyment.queries.GroupTitlePageQuery;
 import ru.ivanov.gaming_enjoyment.queries.PageQuery;
 import ru.ivanov.gaming_enjoyment.services.intrf.GroupService;
 
+import java.util.List;
+
+@CrossOrigin
 @RestController
 @RequestMapping("/groups")
 @RequiredArgsConstructor
@@ -22,17 +25,25 @@ public class GroupController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Page<GroupDto>> getAllGroups(@RequestBody PageQuery query) {
+    public ResponseEntity<Page<GroupDto>> getAllGroups(@RequestParam("page") Integer page,
+                                                       @RequestParam("size") Integer size) {
+        PageQuery query = PageQuery.builder().page(page).size(size).build();
         return ResponseEntity.ok().body(groupService.getAllGroups(query));
     }
 
     @GetMapping("/title")
-    public ResponseEntity<Page<GroupDto>> getGroupsByTitle(@RequestBody GroupTitlePageQuery query) {
+    public ResponseEntity<Page<GroupDto>> getGroupsByTitle(@RequestParam("title") String title,
+                                                           @RequestParam("page") Integer page,
+                                                           @RequestParam("size") Integer size) {
+        GroupTitlePageQuery query = GroupTitlePageQuery.builder().page(page).size(size).title(title).build();
         return ResponseEntity.ok().body(groupService.getGroupsByTitle(query));
     }
 
     @GetMapping("/theme")
-    public ResponseEntity<Page<GroupDto>> getGroupsByThemes(@RequestBody GroupThemePageQuery query) {
+    public ResponseEntity<Page<GroupDto>> getGroupsByThemes(@RequestParam("theme") List<Integer> themes,
+                                                            @RequestParam("page") Integer page,
+                                                            @RequestParam("size") Integer size) {
+        GroupThemePageQuery query = GroupThemePageQuery.builder().page(page).size(size).themes(themes).build();
         return ResponseEntity.ok().body(groupService.getGroupsByThemes(query));
     }
 

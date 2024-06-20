@@ -28,4 +28,9 @@ public interface GameRepository extends JpaRepository<Game, Integer> {
     @Query("SELECT game FROM Game game JOIN game.platforms platform WHERE platform.id IN :platformIds GROUP BY game HAVING COUNT(platform.id) >= :platformsCount")
     public Page<Game> findAllByPlatformIds(@Param("platformIds") List<Integer> platformIds, @Param("platformsCount") Integer platformsCount, Pageable pageable);
 
+    @Query("SELECT game FROM User user JOIN user.gamesPlayed game WHERE user.id = :userId")
+    public Page<Game> findGamesUserPlayedByUserId(@Param("userId") Integer userId, Pageable pageable);
+
+    @Query("SELECT game FROM User user JOIN user.gamesPlaying game WHERE user.id = :userId")
+    public Page<Game> findGamesUserPlayingByUserId(@Param("userId") Integer userId, Pageable pageable);
 }

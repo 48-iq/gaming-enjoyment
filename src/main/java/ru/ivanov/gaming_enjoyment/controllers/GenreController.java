@@ -4,10 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.ivanov.gaming_enjoyment.dto.GenreDto;
+import ru.ivanov.gaming_enjoyment.queries.IdsQuery;
 import ru.ivanov.gaming_enjoyment.services.intrf.GenreService;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/genres")
 @RequiredArgsConstructor
@@ -17,6 +19,13 @@ public class GenreController {
     @GetMapping("/all")
     public ResponseEntity<List<GenreDto>> getAllGenres() {
         return ResponseEntity.ok(genreService.getAllGenres());
+    }
+
+
+    @GetMapping("/ids")
+    public ResponseEntity<List<GenreDto>> getGenresByIds(@RequestParam("ids") List<Integer> ids) {
+        IdsQuery idsQuery = IdsQuery.builder().ids(ids).build();
+        return ResponseEntity.ok(genreService.getGenresByIds(idsQuery));
     }
 
     @GetMapping("/{id}")

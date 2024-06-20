@@ -1,5 +1,6 @@
 package ru.ivanov.gaming_enjoyment.dto;
 
+import jakarta.persistence.Lob;
 import lombok.*;
 
 import java.util.List;
@@ -17,5 +18,6 @@ public class GameDto {
     private String systemRequirements;
     private List<Integer> genres; //id
     private List<Integer> platforms; //id
-    private byte[] image;
+    @Lob
+    private String image;
 }

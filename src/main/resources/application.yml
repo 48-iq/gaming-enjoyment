@@ -9,3 +9,5 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+token.key: 123456789
+register.admin.password: 1234

@@ -1,5 +1,7 @@
 package ru.ivanov.gaming_enjoyment.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.deser.std.ByteBufferDeserializer;
 import lombok.*;
 import ru.ivanov.gaming_enjoyment.enums.Role;
 
@@ -15,6 +17,7 @@ public class UserDto {
     private Integer id;
     private String username;
     private String password;
+    private String adminPassword;
     private String status;
     private String email;
     private String role;
@@ -23,5 +26,5 @@ public class UserDto {
     private List<Integer> groups; //id
     private List<Integer> themes; //id
     private List<Integer> friends;
-    private byte[] image;
+    private String image;
 }

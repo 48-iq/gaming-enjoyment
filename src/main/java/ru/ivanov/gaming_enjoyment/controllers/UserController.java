@@ -9,6 +9,7 @@ import ru.ivanov.gaming_enjoyment.queries.PageQuery;
 import ru.ivanov.gaming_enjoyment.dto.UserDto;
 import ru.ivanov.gaming_enjoyment.services.intrf.UserService;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
@@ -34,7 +35,9 @@ public class UserController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Page<UserDto>> getAllUsers(@RequestBody PageQuery pageQuery) {
+    public ResponseEntity<Page<UserDto>> getAllUsers(@RequestParam("page") Integer page,
+                                                     @RequestParam("size") Integer size) {
+        PageQuery pageQuery = PageQuery.builder().page(page).size(size).build();
         Page<UserDto> usersDtoPage = userService.getAllUsers(pageQuery);
 
         return ResponseEntity.ok(usersDtoPage);
@@ -44,5 +47,11 @@ public class UserController {
     public ResponseEntity<Void> deleteUserById(@PathVariable Integer id) {
         userService.deleteUserById(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/current")
+    public ResponseEntity<UserDto> getCurrentUser() {
+        UserDto userDto = userService.getCurrentUser();
+        return ResponseEntity.ok(userDto);
     }
 }

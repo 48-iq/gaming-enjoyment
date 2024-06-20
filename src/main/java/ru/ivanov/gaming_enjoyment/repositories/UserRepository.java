@@ -7,11 +7,13 @@ import org.springframework.stereotype.Repository;
 import ru.ivanov.gaming_enjoyment.entities.User;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("SELECT u FROM User u WHERE u.id IN :ids")
     public List<User> findAllByIds(List<Integer> ids);
     public boolean existsByUsername(String username);
+    public Optional<User> findByUsername(String username);
 
 }

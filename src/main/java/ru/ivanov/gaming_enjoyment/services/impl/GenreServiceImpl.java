@@ -7,6 +7,7 @@ import ru.ivanov.gaming_enjoyment.dto.GenreDto;
 import ru.ivanov.gaming_enjoyment.entities.Genre;
 import ru.ivanov.gaming_enjoyment.exceptions.EntityNotFoundException;
 import ru.ivanov.gaming_enjoyment.exceptions.NullIdException;
+import ru.ivanov.gaming_enjoyment.queries.IdsQuery;
 import ru.ivanov.gaming_enjoyment.repositories.GameRepository;
 import ru.ivanov.gaming_enjoyment.repositories.GenreRepository;
 import ru.ivanov.gaming_enjoyment.services.intrf.GenreService;
@@ -56,6 +57,15 @@ public class GenreServiceImpl implements GenreService {
             genre.setTitle(genreDto.getTitle());
         }
         return genreConverter.convertToDto(genreRepository.save(genre));
+    }
+
+    @Override
+    public List<GenreDto> getGenresByIds(IdsQuery idsQuery) {
+        return genreRepository
+                .findAllById(idsQuery.getIds())
+                .stream()
+                .map(genreConverter::convertToDto)
+                .toList();
     }
 
     @Override

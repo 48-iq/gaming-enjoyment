@@ -14,5 +14,9 @@ public interface UserService {
 
     Page<UserDto> getAllUsers(PageQuery pageQuery);
 
+    UserDto getCurrentUser();
+
     void deleteUserById(Integer id);
+
+    UserDto findUserByUsername(String username);
 }

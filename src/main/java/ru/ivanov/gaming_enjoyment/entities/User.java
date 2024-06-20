@@ -22,10 +22,9 @@ public class User {
     private String username;
     private String password;
     private String email;
-    private String name;
     private String status;
     @Lob
-    private byte[] image;
+    private String image;
     private Role role;
 
     @ManyToMany

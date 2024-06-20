@@ -10,6 +10,7 @@ import ru.ivanov.gaming_enjoyment.services.intrf.ThemeService;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/themes")
 @RequiredArgsConstructor

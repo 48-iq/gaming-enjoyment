@@ -1,6 +1,7 @@
 package ru.ivanov.gaming_enjoyment.services.impl;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -11,10 +12,7 @@ import ru.ivanov.gaming_enjoyment.dto.GameDto;
 
 import ru.ivanov.gaming_enjoyment.entities.Game;
 import ru.ivanov.gaming_enjoyment.exceptions.NullIdException;
-import ru.ivanov.gaming_enjoyment.queries.GameGenrePageQuery;
-import ru.ivanov.gaming_enjoyment.queries.GamePlatformPageQuery;
-import ru.ivanov.gaming_enjoyment.queries.GameTitlePageQuery;
-import ru.ivanov.gaming_enjoyment.queries.PageQuery;
+import ru.ivanov.gaming_enjoyment.queries.*;
 import ru.ivanov.gaming_enjoyment.repositories.GameRepository;
 import ru.ivanov.gaming_enjoyment.repositories.GenreRepository;
 import ru.ivanov.gaming_enjoyment.repositories.PlatformRepository;
@@ -33,6 +31,7 @@ public class GameServiceImpl implements GameService {
     private final PlatformRepository platformRepository;
 
     @Override
+    @Transactional
     public GameDto getGameById(Integer id) {
         return gameConverter.convertToDto(
                 gameRepository.findById(id)
@@ -42,6 +41,7 @@ public class GameServiceImpl implements GameService {
         );
     }
 
+    @Transactional
     @Override
     public Page<GameDto> getAllGames(PageQuery pageQuery) {
         return gameRepository
@@ -49,6 +49,7 @@ public class GameServiceImpl implements GameService {
                 .map(gameConverter::convertToDto);
     }
 
+    @Transactional
     @Override
     public Page<GameDto> getGamesByTitle(GameTitlePageQuery query) {
         query.setTitle(query.getTitle().toLowerCase());
@@ -64,6 +65,7 @@ public class GameServiceImpl implements GameService {
         );
     }
 
+    @Transactional
     @Override
     public Page<GameDto> getGamesByGenres(GameGenrePageQuery query) {
         Page<Game> gamePage = gameRepository.findGamesByGenreIds(query.getGenres(),
@@ -78,6 +80,7 @@ public class GameServiceImpl implements GameService {
         );
     }
 
+    @Transactional
     @Override
     public Page<GameDto> getGamesByPlatforms(GamePlatformPageQuery query) {
         Page<Game> gamePage = gameRepository.findAllByPlatformIds(query.getPlatforms(),
@@ -92,6 +95,33 @@ public class GameServiceImpl implements GameService {
         );
     }
 
+    @Override
+    public Page<GameDto> getGamesUserPlayed(GameUserPageQuery gameUserPageQuery) {
+        Page<Game> gamePage = gameRepository.findGamesUserPlayedByUserId(gameUserPageQuery.getUserId(),
+                PageRequest.of(gameUserPageQuery.getPage(), gameUserPageQuery.getSize()));
+        return new PageImpl<GameDto>(
+                gamePage.getContent().stream()
+                        .map(gameConverter::convertToDto)
+                        .toList(),
+                gamePage.getPageable(),
+                gamePage.getTotalElements()
+        );
+    }
+
+    @Override
+    public Page<GameDto> getGamesUserPlaying(GameUserPageQuery gameUserPageQuery) {
+        Page<Game> gamePage = gameRepository.findGamesUserPlayingByUserId(gameUserPageQuery.getUserId(),
+                PageRequest.of(gameUserPageQuery.getPage(), gameUserPageQuery.getSize()));
+        return new PageImpl<GameDto>(
+                gamePage.getContent().stream()
+                        .map(gameConverter::convertToDto)
+                        .toList(),
+                gamePage.getPageable(),
+                gamePage.getTotalElements()
+        );
+    }
+
+    @Transactional
     @Override
     public GameDto createGame(GameDto gameDto) {
         Game game = gameConverter.convertToEntity(gameDto);
@@ -111,6 +141,7 @@ public class GameServiceImpl implements GameService {
         return gameConverter.convertToDto(game);
     }
 
+    @Transactional
     @Override
     public GameDto updateGame(GameDto gameDto) {
         if (gameDto.getId() == null) {
@@ -146,6 +177,7 @@ public class GameServiceImpl implements GameService {
         return gameConverter.convertToDto(game);
     }
 
+    @Transactional
     @Override
     public void deleteGameById(Integer id) {
         gameRepository.deleteById(id);

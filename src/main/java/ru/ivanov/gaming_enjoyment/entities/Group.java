@@ -19,6 +19,10 @@ public class Group {
     private Integer id;
     private String title;
     private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "creator_id", referencedColumnName = "id")
+    private User creator;
     @Lob
     private byte[] image;
 

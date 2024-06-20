@@ -26,5 +26,7 @@ public class UserDto {
     private List<Integer> groups; //id
     private List<Integer> themes; //id
     private List<Integer> friends;
+    private List<Integer> createdGroups;
+    private List<Integer> notViewedPosts;
     private String image;
 }

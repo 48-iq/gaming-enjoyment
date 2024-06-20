@@ -29,6 +29,8 @@ public class UserConverter {
             user.setThemes(new ArrayList<>());
         if (user.getFriends() == null)
             user.setFriends(new ArrayList<>());
+        if (user.getCreatedGroups() == null)
+            user.setCreatedGroups(new ArrayList<>());
         return UserDto.builder()
                 .id(user.getId())
                 .username(user.getUsername())
@@ -40,6 +42,7 @@ public class UserConverter {
                 .groups(user.getGroups().stream().map(Group::getId).toList())
                 .themes(user.getThemes().stream().map(Theme::getId).toList())
                 .friends(user.getFriends().stream().map(User::getId).toList())
+                .createdGroups(user.getCreatedGroups().stream().map(Group::getId).toList())
                 .image(user.getImage())
                 .status(user.getStatus())
                 .build();
@@ -51,6 +54,7 @@ public class UserConverter {
                 .username(userDto.getUsername())
                 .password(userDto.getPassword())
                 .email(userDto.getEmail())
+                .image(userDto.getImage())
                 .role(Role.valueOf(userDto.getRole()))
                 .status(userDto.getStatus())
                 .build();

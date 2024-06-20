@@ -90,9 +90,11 @@ public class UserServiceImpl implements UserService {
             user.setFriends(
                 userRepository.findAllByIds(userDto.getFriends())
             );
-        System.out.println(user.getPassword() + " before");
+        if (userDto.getCreatedGroups() != null)
+            user.setCreatedGroups(
+                groupRepository.findAllByIds(userDto.getCreatedGroups())
+            );
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        System.out.println(user.getPassword() + " after");
         user = userRepository.save(user);
         return userConverter.convertToDto(user);
     }

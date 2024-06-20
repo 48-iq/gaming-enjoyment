@@ -13,6 +13,7 @@ import java.util.List;
 public class GroupDto {
 
     private Integer id;
+    private Integer creator;
     private String title;
     private String description;
     private byte[] image;

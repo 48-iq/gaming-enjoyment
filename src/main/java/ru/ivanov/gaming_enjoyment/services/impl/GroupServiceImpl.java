@@ -82,6 +82,14 @@ public class GroupServiceImpl implements GroupService {
                     themeRepository.findAllByIds(groupDto.getThemes())
             );
         }
+        if (groupDto.getCreator() != null) {
+            group.setCreator(
+                    userRepository.findById(groupDto.getCreator())
+                            .orElseThrow(
+                                    () -> new EntityNotFoundException("User with id " + groupDto.getCreator() + " not found")
+                            )
+            );
+        }
         if (groupDto.getUsers() != null) {
             group.setUsers(
                     userRepository.findAllByIds(groupDto.getUsers())

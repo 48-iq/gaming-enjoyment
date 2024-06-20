@@ -5,6 +5,7 @@ import lombok.*;
 import ru.ivanov.gaming_enjoyment.enums.Role;
 
 import java.sql.Blob;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -65,5 +66,18 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "theme_id", referencedColumnName = "id")
     )
     List<Theme> themes;
+
+    @OneToMany(mappedBy = "creator")
+    private List<Group> createdGroups;
+
+    @OneToMany(mappedBy = "user")
+    private List<Post> posts;
+
+    @ManyToMany
+    @JoinTable(name = "user_not_viewed_posts",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "post_id", referencedColumnName = "id")
+    )
+    private List<Post> notViewedPosts;
 
 }

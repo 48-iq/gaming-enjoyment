@@ -22,6 +22,7 @@ public class GroupConverter {
         return GroupDto.builder()
                 .id(group.getId())
                 .title(group.getTitle())
+                .creator(group.getCreator().getId())
                 .description(group.getDescription())
                 .users(group.getUsers()
                         .stream().map(User::getId).toList())

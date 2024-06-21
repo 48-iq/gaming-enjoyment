@@ -7,10 +7,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.ivanov.gaming_enjoyment.dto.UserDto;
-import ru.ivanov.gaming_enjoyment.entities.Game;
-import ru.ivanov.gaming_enjoyment.entities.Group;
-import ru.ivanov.gaming_enjoyment.entities.Theme;
-import ru.ivanov.gaming_enjoyment.entities.User;
+import ru.ivanov.gaming_enjoyment.entities.*;
 import ru.ivanov.gaming_enjoyment.enums.Role;
 
 import java.util.ArrayList;
@@ -31,6 +28,8 @@ public class UserConverter {
             user.setFriends(new ArrayList<>());
         if (user.getCreatedGroups() == null)
             user.setCreatedGroups(new ArrayList<>());
+        if (user.getPosts() == null)
+            user.setPosts(new ArrayList<>());
         return UserDto.builder()
                 .id(user.getId())
                 .username(user.getUsername())
@@ -43,6 +42,7 @@ public class UserConverter {
                 .themes(user.getThemes().stream().map(Theme::getId).toList())
                 .friends(user.getFriends().stream().map(User::getId).toList())
                 .createdGroups(user.getCreatedGroups().stream().map(Group::getId).toList())
+                .posts(user.getPosts().stream().map(Post::getId).toList())
                 .image(user.getImage())
                 .status(user.getStatus())
                 .build();

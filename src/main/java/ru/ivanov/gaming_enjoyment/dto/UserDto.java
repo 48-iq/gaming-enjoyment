@@ -28,5 +28,6 @@ public class UserDto {
     private List<Integer> friends;
     private List<Integer> createdGroups;
     private List<Integer> notViewedPosts;
+    private List<Integer> posts;
     private String image;
 }

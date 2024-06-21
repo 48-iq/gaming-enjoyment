@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.ivanov.gaming_enjoyment.queries.PageQuery;
 import ru.ivanov.gaming_enjoyment.dto.UserDto;
+import ru.ivanov.gaming_enjoyment.services.intrf.GroupService;
 import ru.ivanov.gaming_enjoyment.services.intrf.UserService;
 
 @CrossOrigin
@@ -16,6 +17,7 @@ import ru.ivanov.gaming_enjoyment.services.intrf.UserService;
 @Slf4j
 public class UserController {
     private final UserService userService;
+    private final GroupService groupService;
     @PostMapping("/register")
     public ResponseEntity<UserDto> registerUser(@RequestBody UserDto userDto) {
         UserDto registeredUser = userService.registerUser(userDto);

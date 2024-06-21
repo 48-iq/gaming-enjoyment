@@ -19,6 +19,7 @@ import ru.ivanov.gaming_enjoyment.repositories.PlatformRepository;
 import ru.ivanov.gaming_enjoyment.repositories.UserRepository;
 import ru.ivanov.gaming_enjoyment.services.intrf.GameService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -95,10 +96,13 @@ public class GameServiceImpl implements GameService {
         );
     }
 
+    @Transactional
     @Override
     public Page<GameDto> getGamesUserPlayed(GameUserPageQuery gameUserPageQuery) {
         Page<Game> gamePage = gameRepository.findGamesUserPlayedByUserId(gameUserPageQuery.getUserId(),
                 PageRequest.of(gameUserPageQuery.getPage(), gameUserPageQuery.getSize()));
+        System.out.println("content----------------------------------------<><><><><><>");
+        System.out.println(gamePage.getContent());
         return new PageImpl<GameDto>(
                 gamePage.getContent().stream()
                         .map(gameConverter::convertToDto)
@@ -108,6 +112,7 @@ public class GameServiceImpl implements GameService {
         );
     }
 
+    @Transactional
     @Override
     public Page<GameDto> getGamesUserPlaying(GameUserPageQuery gameUserPageQuery) {
         Page<Game> gamePage = gameRepository.findGamesUserPlayingByUserId(gameUserPageQuery.getUserId(),
@@ -180,6 +185,6 @@ public class GameServiceImpl implements GameService {
     @Transactional
     @Override
     public void deleteGameById(Integer id) {
-        gameRepository.deleteById(id);
+        gameRepository.deleteGameById(id);
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import ru.ivanov.gaming_enjoyment.converters.PostConverter;
 import ru.ivanov.gaming_enjoyment.dto.PostDto;
 import ru.ivanov.gaming_enjoyment.entities.Post;
+import ru.ivanov.gaming_enjoyment.exceptions.EntityNotFoundException;
 import ru.ivanov.gaming_enjoyment.queries.PostPageQuery;
 import ru.ivanov.gaming_enjoyment.repositories.GroupRepository;
 import ru.ivanov.gaming_enjoyment.repositories.PostRepository;
@@ -35,12 +36,20 @@ public class PostServiceImpl implements PostService {
     public PostDto createPost(PostDto postDto) {
         Post post = postConverter.convertToEntity(postDto);
         if (postDto.getUser() != null) {
+            post.setUser(userRepository.findById(postDto.getUser())
+                    .orElseThrow(() -> new EntityNotFoundException("User with id " + postDto.getUser() + " not found")));
+            post.setUsersNotViewed(post.getUser().getFriends());
+        }
+        if (postDto.getGroup() != null) {
+            post.setGroup(groupRepository.findById(postDto.getGroup())
+                    .orElseThrow(() -> new EntityNotFoundException("Group with id " + postDto.getGroup() + " not found")));
+            post.setUsersNotViewed(post.getGroup().getUsers());
         }
         return postConverter.convertToDto(postRepository.save(post));
     }
 
     @Override
     public void deletePost(Integer id) {
-
+        postRepository.deleteById(id);
     }
 }

@@ -20,12 +20,19 @@ public class GameController {
     private final GameService gameService;
 
     @GetMapping("/user/playing")
-    public ResponseEntity<Page<GameDto>> getGamesUserPlaying(@RequestBody GameUserPageQuery gameUserPageQuery) {
+    public ResponseEntity<Page<GameDto>> getGamesUserPlaying(@RequestParam("userId") Integer userId,
+                                                              @RequestParam("page") Integer page,
+                                                              @RequestParam("size") Integer size) {
+        GameUserPageQuery gameUserPageQuery = GameUserPageQuery.builder().page(page).size(size).userId(userId).build();
         return ResponseEntity.ok(gameService.getGamesUserPlaying(gameUserPageQuery));
     }
 
     @GetMapping("/user/played")
-    public ResponseEntity<Page<GameDto>> getGamesUserPlayed(@RequestBody GameUserPageQuery gameUserPageQuery) {
+    public ResponseEntity<Page<GameDto>> getGamesUserPlayed(@RequestParam("userId") Integer userId,
+                                                            @RequestParam("page") Integer page,
+                                                            @RequestParam("size") Integer size) {
+        System.out.println(userId + "  " + page + "  " + size);
+        GameUserPageQuery gameUserPageQuery = GameUserPageQuery.builder().page(page).size(size).userId(userId).build();
         return ResponseEntity.ok(gameService.getGamesUserPlayed(gameUserPageQuery));
     }
 

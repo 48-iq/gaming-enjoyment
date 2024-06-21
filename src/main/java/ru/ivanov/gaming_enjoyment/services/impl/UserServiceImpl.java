@@ -21,6 +21,7 @@ import ru.ivanov.gaming_enjoyment.repositories.UserRepository;
 import ru.ivanov.gaming_enjoyment.security.UserDetailsImpl;
 import ru.ivanov.gaming_enjoyment.services.intrf.UserService;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 @Service
@@ -175,10 +176,7 @@ public class UserServiceImpl implements UserService {
     }
     @Transactional
     public void deleteUserById(Integer id) {
-        if (!userRepository.existsById(id)) {
-            throw new EntityNotFoundException("User with id " + id + " not found");
-        }
-        userRepository.deleteById(id);
+        userRepository.deleteUserById(id);
     }
     @Transactional
     @Override
